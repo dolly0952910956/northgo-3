@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <title>Northgo｜貨運、專案物流、倉儲與船務代理</title>
+  <meta name="description" content="Northgo 提供海空陸貨運、重件專案、台中港倉儲與船務代理。辦公室在台北、台中、高雄、東京、大阪、胡志明市與洛杉磯。">
+  <link rel="canonical" href="https://www.northgo.com/">
+  <meta property="og:title" content="Northgo｜貨運、專案物流、倉儲與船務代理">
+  <meta property="og:description" content="1988 年創立於台北。貨運、專案、倉儲與船務代理，七個辦公室。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.northgo.com/">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Northgo",
+    "url": "https://www.northgo.com/",
+    "foundingDate": "1988",
+    "email": "info@northgo.com",
+    "telephone": "+886-2-2531-8677",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "7F., No. 10, Sec. 3, Minsheng E. Rd.",
+      "addressLocality": "Taipei",
+      "postalCode": "104511",
+      "addressCountry": "TW"
+    }
+  }
+  </script>
+  <style>
+    :root {
+      --navy: #04221f;
+      --navy-2: #0a3834;
+      --cyan: #81d8d0;
+      --ink: #e7f6f4;
+      --muted: #8fb0ab;
+      --line: #1c4742;
+      --paper: #031614;
+      --card: #0a2421;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.55;
+    }
+    a { color: inherit; }
+    .skip { position: absolute; left: 12px; top: -40px; background: var(--cyan); color: var(--navy); padding: 8px 12px; }
+    .skip:focus { top: 12px; }
+    .topbar {
+      position: sticky; top: 0; z-index: 10;
+      min-height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      padding: 8px 20px;
+      background: rgba(3, 22, 20, 0.94);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+    .brand img { height: 36px; width: auto; display: block; }
+    .site-nav { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .site-nav a { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: 999px; }
+    .site-nav a.live { border: 1px solid var(--cyan); color: var(--cyan); padding: 0 14px; }
+    .site-nav a.live:hover, .site-nav a.live:focus-visible { background: var(--cyan); color: var(--navy); }
+    .wrap { width: min(1120px, 100%); margin: 0 auto; }
+    .hero { padding: 56px 20px 36px; }
+    .eyebrow { margin: 0 0 8px; color: var(--cyan); letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.82rem; font-weight: 700; }
+    h1 { margin: 0; font-size: clamp(2.1rem, 5vw, 3.4rem); line-height: 1.05; letter-spacing: -0.04em; }
+    .lede { max-width: 62ch; color: var(--muted); font-size: 1.05rem; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+    .actions a { text-decoration: none; min-height: 48px; display: inline-flex; align-items: center; padding: 0 16px; border-radius: 999px; }
+    .actions a.primary { background: var(--cyan); color: var(--navy); font-weight: 700; }
+    .actions a.secondary { border: 1px solid var(--line); }
+    .facts, .services, .steps { display: grid; gap: 12px; }
+    .fact, .service, .step {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+    }
+    .fact strong { display: block; color: var(--cyan); font-size: 1.15rem; }
+    .fact span, .service .en, .step span { color: var(--muted); }
+    main { padding: 8px 20px 48px; }
+    h2 { margin: 28px 0 8px; letter-spacing: -0.03em; }
+    .section-note { margin: 0 0 12px; color: var(--muted); max-width: 68ch; }
+    .service h3 { margin: 0; }
+    .service ul, .step p { margin: 8px 0 0; }
+    .service li + li { margin-top: 4px; }
+    footer { padding: 8px 20px 36px; color: var(--muted); font-size: 0.9rem; }
+    footer a { color: var(--cyan); }
+    @media (min-width: 800px) {
+      .hero, main, footer, .topbar { padding-left: 32px; padding-right: 32px; }
+      .facts { grid-template-columns: repeat(3, 1fr); }
+      .services { grid-template-columns: 1fr 1fr; }
+      .steps { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#content">跳至內容</a>
+  <header class="topbar">
+    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="Northgo" width="156" height="36"></a>
+    <nav class="site-nav" aria-label="主要">
+      <a href="#services">服務</a>
+      <a href="locations.html">據點</a>
+      <a class="live" href="contact.html">詢價</a>
+    </nav>
+  </header>
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">Making logistics effortless</p>
+      <h1>讓物流變得輕鬆。</h1>
+      <p class="lede">Northgo 在 1988 年創立於台北，2024 年 11 月 11 日由 Max Seair Logistics 改名。我們做海空陸貨運、重件專案、倉儲，以及船務代理。辦公室在台灣、日本、越南與美國。</p>
+      <div class="actions">
+        <a class="primary" href="contact.html">提出詢價</a>
+        <a class="secondary" href="locations.html">看七個辦公室</a>
+      </div>
+    </div>
+  </section>
+  <main id="content">
+    <div class="wrap">
+      <section class="facts" aria-label="可核對的事實">
+        <p class="fact"><strong>1988</strong><span>台北創立，總部仍在民生東路</span></p>
+        <p class="fact"><strong>7 個辦公室</strong><span>台北、台中、高雄、東京、大阪、胡志明市、洛杉磯</span></p>
+        <p class="fact"><strong>IATA · ISO 45001 · AEO</strong><span>現有官網頁尾標示的會員與認證標誌</span></p>
+      </section>
+
+      <h2 id="services">能運什麼</h2>
+      <p class="section-note">四條服務線沿用官網公開範圍。這裡寫的是實際作業，不是重複的口號。</p>
+      <div class="services">
+        <article class="service">
+          <h3>貨運物流</h3>
+          <p class="en">Freight Logistics</p>
+          <ul>
+            <li>海運整櫃 FCL 與併櫃 LCL</li>
+            <li>空運</li>
+            <li>陸運與合作車隊</li>
+            <li>報關與稅則分類</li>
+          </ul>
+        </article>
+        <article class="service">
+          <h3>專案物流</h3>
+          <p class="en">Project Logistics</p>
+          <ul>
+            <li>超大件、重件與高價貨物</li>
+            <li>工程方案與專案管理</li>
+            <li>油氣、離岸、基礎建設、軌道、再生能源</li>
+            <li>路勘、吊運、多式聯運與 HSE</li>
+          </ul>
+        </article>
+        <article class="service">
+          <h3>倉儲物流</h3>
+          <p class="en">Warehouse Logistics</p>
+          <ul>
+            <li>台中港倉庫</li>
+            <li>倉儲管理系統，掌握庫存</li>
+            <li>揀貨包裝、檢驗重新包裝、貨櫃租售</li>
+            <li>離岸設備倉儲</li>
+          </ul>
+        </article>
+        <article class="service">
+          <h3>船務代理</h3>
+          <p class="en">Shipping Agency</p>
+          <ul>
+            <li>全權、保護、加油、塢修與新船交付代理</li>
+            <li>乾散貨、油輪、雜貨、貨櫃、汽車船、離岸船</li>
+            <li>備件、船員、檢驗與水下清洗</li>
+          </ul>
+        </article>
+      </div>
+
+      <h2>怎麼開始</h2>
+      <div class="steps">
+        <article class="step"><strong>1. 選定服務</strong><p>貨運、專案、倉儲或船務代理，先對上面的範圍。</p></article>
+        <article class="step"><strong>2. 留下貨況</strong><p>填起運地、目的地、貨物與希望時程。</p></article>
+        <article class="step"><strong>3. 對應辦公室接洽</strong><p>台北總部 +886-2-2531-8677，或寫信到 info@northgo.com。</p></article>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">
+      重建稿 1.0.0。這是依公開官網整理的版本，尚未取代 <a href="https://www.northgo.com/">northgo.com</a>。
+      法律文件仍以官網為準：
+      <a href="https://www.northgo.com/legal/privacy-policy">隱私權</a>、
+      <a href="https://www.northgo.com/legal/terms">條款</a>、
+      <a href="https://www.northgo.com/legal/cookie-policy">Cookie</a>、
+      <a href="https://www.northgo.com/legal/disclaimer">聲明</a>。
+    </div>
+  </footer>
+</body>
+</html>

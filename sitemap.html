@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <title>Northgo 網站地圖</title>
+  <meta name="description" content="www.northgo.com 的 HTML 網站地圖。依公開頁面整理，含四個語系、服務、據點與法律文件。">
+  <style>
+    :root {
+      --navy: #06284a;
+      --navy-2: #0c3d68;
+      --cyan: #12c8d6;
+      --cyan-ink: #087f8c;
+      --ink: #13283f;
+      --muted: #5c6d80;
+      --line: #dbe5ef;
+      --paper: #f3f7fb;
+      --white: #ffffff;
+      --warn: #8a4e08;
+      --warn-bg: #fff5e8;
+      --shadow: 0 10px 30px rgba(6, 40, 74, 0.06);
+      --radius: 18px;
+      --header: 64px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.55;
+    }
+    a { color: inherit; }
+    img { max-width: 100%; }
+
+    .skip {
+      position: absolute;
+      left: 12px;
+      top: -40px;
+      background: var(--cyan);
+      color: var(--navy);
+      padding: 8px 12px;
+      z-index: 20;
+    }
+    .skip:focus { top: 12px; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: var(--header);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 0 20px;
+      background: rgba(255, 255, 255, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      min-height: 44px;
+      font-weight: 750;
+      letter-spacing: -0.03em;
+      font-size: 1.25rem;
+    }
+    .brand b { color: var(--cyan-ink); font-weight: 800; }
+    .brand img { height: 36px; width: auto; display: block; }
+    .brand span { color: var(--muted); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .topbar a.live {
+      text-decoration: none;
+      border: 1px solid var(--navy);
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 8px 14px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.92rem;
+    }
+    .topbar a.live:hover,
+    .topbar a.live:focus-visible { background: var(--navy); color: white; }
+
+    .hero {
+      background:
+        radial-gradient(circle at 12% 20%, rgba(18, 200, 214, 0.18), transparent 28%),
+        linear-gradient(160deg, var(--navy) 0%, var(--navy-2) 70%);
+      color: white;
+      padding: 48px 20px 36px;
+    }
+    .wrap { width: min(1120px, 100%); margin: 0 auto; }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--cyan);
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+    }
+    .lede {
+      max-width: 68ch;
+      margin: 14px 0 0;
+      color: rgba(255, 255, 255, 0.86);
+      font-size: 1.05rem;
+    }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin: 28px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+    .stats li {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      padding: 12px 14px;
+    }
+    .stats strong {
+      display: block;
+      font-size: 1.45rem;
+      letter-spacing: -0.04em;
+    }
+    .stats span { color: rgba(255, 255, 255, 0.72); font-size: 0.88rem; }
+
+    .controls {
+      position: sticky;
+      top: var(--header);
+      z-index: 9;
+      background: rgba(243, 247, 251, 0.94);
+      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    .controls .wrap {
+      display: grid;
+      gap: 12px;
+      padding: 12px 0;
+    }
+    .search {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: white;
+      padding: 0 14px;
+      font: inherit;
+      color: var(--ink);
+    }
+    .search:focus { outline: 3px solid rgba(18, 200, 214, 0.45); border-color: var(--cyan); }
+    .langs { display: flex; flex-wrap: wrap; gap: 8px; }
+    .langs button {
+      font: inherit;
+      min-height: 44px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: white;
+      padding: 0 14px;
+      cursor: pointer;
+      color: var(--ink);
+    }
+    .langs button[aria-pressed="true"] {
+      background: var(--navy);
+      color: white;
+      border-color: var(--navy);
+    }
+    .langs button:focus-visible { outline: 3px solid rgba(18, 200, 214, 0.55); }
+
+    main { padding: 22px 20px 64px; }
+    .jumps {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 0 0 18px;
+      padding: 0;
+      list-style: none;
+    }
+    .jumps a {
+      text-decoration: none;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      min-height: 40px;
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.92rem;
+    }
+    .jumps a:hover,
+    .jumps a:focus-visible { border-color: var(--cyan); color: var(--cyan-ink); }
+
+    .layout {
+      display: grid;
+      gap: 16px;
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px 16px 8px;
+    }
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+    .card > p { margin: 0 0 12px; color: var(--muted); }
+    .tree, .tree ul { list-style: none; margin: 0; padding: 0; }
+    .tree ul { margin-left: 12px; border-left: 2px solid #e7eef5; padding-left: 12px; }
+    .node { padding: 4px 0 8px; }
+    .row {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      text-decoration: none;
+      padding: 8px 8px;
+      margin: 0 -8px;
+      border-radius: 12px;
+      min-height: 44px;
+    }
+    a.row:hover,
+    a.row:focus-visible { background: #f3fbfd; outline: none; }
+    .name { font-weight: 700; }
+    .name small {
+      font-weight: 600;
+      color: var(--muted);
+      margin-left: 6px;
+    }
+    .path {
+      font-family: Consolas, "Cascadia Mono", ui-monospace, monospace;
+      font-size: 0.78rem;
+      color: var(--cyan-ink);
+      overflow-wrap: anywhere;
+    }
+    .desc { margin: 0 0 6px; color: var(--muted); font-size: 0.92rem; }
+    .label {
+      display: inline-block;
+      margin: 6px 0 4px;
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .card, .svc { scroll-margin-top: 196px; }
+    .plain { margin: 0; padding: 7px 0; color: var(--ink); }
+    .meta {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: 8px 0;
+    }
+    .meta b { font-weight: 700; }
+    .meta span { color: var(--muted); }
+    .svc-grid { display: grid; gap: 12px; }
+    .svc {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 8px 12px 10px;
+      background: #fbfdff;
+    }
+    .offices {
+      display: grid;
+      gap: 10px;
+      margin: 8px 0 14px;
+    }
+    .office {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px;
+      background: #fbfdff;
+    }
+    .office h3 { margin: 0 0 4px; font-size: 1rem; }
+    .office p { margin: 0; color: var(--muted); font-size: 0.92rem; }
+    .note {
+      background: var(--warn-bg);
+      color: var(--warn);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin: 8px 0 14px;
+    }
+    .note strong { display: block; margin-bottom: 4px; }
+    .empty {
+      display: none;
+      margin: 12px 0;
+      padding: 16px;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      background: white;
+      color: var(--muted);
+    }
+    .empty.show { display: block; }
+    footer {
+      padding: 8px 20px 36px;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    @media (min-width: 720px) {
+      .hero { padding: 64px 32px 48px; }
+      .topbar, main { padding-left: 32px; padding-right: 32px; }
+      footer { padding-left: 32px; padding-right: 32px; }
+      .stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+      .controls .wrap { grid-template-columns: 1fr auto; align-items: center; }
+      .row { flex-direction: row; justify-content: space-between; align-items: baseline; gap: 16px; }
+      .offices { grid-template-columns: 1fr 1fr; }
+      .meta { flex-direction: row; justify-content: space-between; align-items: baseline; gap: 16px; }
+      .meta span { text-align: right; max-width: 62%; }
+      .svc-grid { grid-template-columns: 1fr 1fr; }
+      .layout { grid-template-columns: 1fr 1fr; align-items: start; }
+      .span-2 { grid-column: 1 / -1; }
+      .card { padding: 22px 22px 12px; }
+      .card, .svc { scroll-margin-top: 132px; }
+    }
+
+    @media (max-width: 380px) {
+      .brand span { display: none; }
+    }
+
+    @media print {
+      .topbar, .controls, .jumps, .skip { display: none; }
+      body { background: white; }
+      .hero { background: white; color: black; padding: 0 0 12px; }
+      .lede, .stats span { color: black; }
+      .card { box-shadow: none; break-inside: avoid; }
+      a.row { color: black; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#content">跳至網站地圖</a>
+  <header class="topbar">
+    <a class="brand" href="https://www.northgo.com/"><img src="assets/logo-navy.svg" alt="Northgo" width="156" height="36"> <span>Sitemap</span></a>
+    <a class="live" href="https://www.northgo.com/">開啟官網</a>
+  </header>
+
+  <section class="hero">
+    <div class="wrap">
+      <p class="eyebrow">www.northgo.com</p>
+      <h1>網站地圖</h1>
+      <p class="lede">Northgo 是以物流服務為主的企業官網。公開網站沒有 XML sitemap；這份 HTML 地圖依主導覽、頁尾與四個語系路徑整理。同一套頁面在 English、繁體中文、日本語、Tiếng Việt 都可開啟。</p>
+      <ul class="stats">
+        <li><strong>11</strong><span>每一語系的頁面</span></li>
+        <li><strong>44</strong><span>四語系合計網址</span></li>
+        <li><strong>4</strong><span>服務線</span></li>
+        <li><strong>7</strong><span>全球辦公室</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="controls">
+    <div class="wrap">
+      <input class="search" id="q" type="search" placeholder="搜尋頁面、據點或網址" aria-label="搜尋網站地圖">
+      <div class="langs" role="group" aria-label="語系">
+        <button type="button" data-prefix="" aria-pressed="true">English</button>
+        <button type="button" data-prefix="/zh-tw" aria-pressed="false">繁體中文</button>
+        <button type="button" data-prefix="/ja" aria-pressed="false">日本語</button>
+        <button type="button" data-prefix="/vi" aria-pressed="false">Tiếng Việt</button>
+      </div>
+    </div>
+  </div>
+
+  <main id="content">
+    <div class="wrap">
+      <ul class="jumps">
+        <li><a href="#home">首頁</a></li>
+        <li><a href="#services">服務</a></li>
+        <li><a href="#about">關於</a></li>
+        <li><a href="#contact">聯絡與據點</a></li>
+        <li><a href="#legal">法律文件</a></li>
+        <li><a href="#notes">站點觀察</a></li>
+      </ul>
+      <p class="empty" id="empty">沒有符合的項目。換個關鍵字，或切換語系再試。</p>
+
+      <div class="layout" id="map">
+        <section class="card" id="home" data-node data-search="home 首頁 why northgo our services 為什麼">
+          <h2>首頁</h2>
+          <p>品牌主張為 Making logistics effortless。繁中首頁主標為「讓物流變得輕鬆」。</p>
+          <ul class="tree">
+            <li class="node" data-node data-search="home 首頁 northgo">
+              <a class="row" data-path="/" href="https://www.northgo.com/">
+                <span class="name">Home <small>首頁</small></span>
+                <span class="path">/</span>
+              </a>
+              <ul>
+                <li class="node" data-node data-search="our services 服務總覽 freight project warehouse shipping">
+                  <a class="row" data-path="/#our-services" href="https://www.northgo.com/#our-services">
+                    <span class="name">Our Services <small>服務總覽</small></span>
+                    <span class="path">/#our-services</span>
+                  </a>
+                </li>
+                <li class="node" data-node data-search="why northgo 為什麼選擇">
+                  <a class="row" data-path="/#why-northgo" href="https://www.northgo.com/#why-northgo">
+                    <span class="name">Why Northgo <small>為什麼選擇 Northgo</small></span>
+                    <span class="path">/#why-northgo</span>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section class="card" id="about" data-node data-search="about 關於我們 vision mission values story">
+          <h2>關於</h2>
+          <p>公司沿革、願景與價值觀。1988 年於台北創立，2024 年 11 月 11 日由 Max Seair Logistics 改名為 Northgo。</p>
+          <ul class="tree">
+            <li class="node" data-node data-search="about 關於我們 vision mission values story">
+              <a class="row" data-path="/about" href="https://www.northgo.com/about">
+                <span class="name">About <small>關於我們</small></span>
+                <span class="path">/about</span>
+              </a>
+              <p class="label">頁內區塊</p>
+              <ul>
+                <li class="meta"><b>Our Vision</b><span>最受信賴的物流夥伴</span></li>
+                <li class="meta"><b>Our Mission</b><span>Making logistics effortless</span></li>
+                <li class="meta"><b>Our Values</b><span>客戶、誠信、創新、永續</span></li>
+                <li class="meta"><b>Our Story</b><span>創立、改名與品牌承諾</span></li>
+              </ul>
+            </li>
+          </ul>
+        </section>
+
+        <section class="card span-2" id="services" data-node data-search="services 服務 freight project warehouse shipping agency">
+          <h2>服務</h2>
+          <p>主導覽 Services 選單與首頁服務卡都指向這四個頁面。子項是頁內說明，沒有獨立網址。</p>
+          <div class="svc-grid">
+            <article class="svc node" data-node data-search="freight logistics 貨運 ocean air land customs fcl lcl">
+              <a class="row" data-path="/services/freight-logistics" href="https://www.northgo.com/services/freight-logistics">
+                <span class="name">Freight Logistics <small>貨運物流</small></span>
+                <span class="path">/services/freight-logistics</span>
+              </a>
+              <p class="desc">海、空、陸與報關的門到門貨運。</p>
+              <p class="label">頁內區塊</p>
+              <ul class="tree">
+                <li class="meta"><b>Ocean Freight</b><span>FCL、LCL、主要船公司合約</span></li>
+                <li class="meta"><b>Air Freight</b><span>空運與即時資訊</span></li>
+                <li class="meta"><b>Land Transport</b><span>拖車與在地合作車隊</span></li>
+                <li class="meta"><b>Customs Clearance</b><span>稅則分類與清關</span></li>
+              </ul>
+            </article>
+
+            <article class="svc node" data-node data-search="project logistics 專案物流 heavy lift oil gas offshore infrastructure rail renewable">
+              <a class="row" data-path="/services/project-logistics" href="https://www.northgo.com/services/project-logistics">
+                <span class="name">Project Logistics <small>專案物流</small></span>
+                <span class="path">/services/project-logistics</span>
+              </a>
+              <p class="desc">超大件、重件與高價貨物的專案運輸。</p>
+              <p class="label">頁內區塊</p>
+              <ul class="tree">
+                <li class="plain">Engineering Solutions</li>
+                <li class="plain">Project Management</li>
+                <li class="plain">Oil &amp; Gas、Offshore、Infrastructure、Rail、Renewable Energy</li>
+                <li class="plain">包船、吊運、路勘、多式聯運、HSE</li>
+              </ul>
+            </article>
+
+            <article class="svc node" data-node data-search="warehouse logistics 倉儲 taichung wms offshore kitting">
+              <a class="row" data-path="/services/warehouse-logistics" href="https://www.northgo.com/services/warehouse-logistics">
+                <span class="name">Warehouse Logistics <small>倉儲物流</small></span>
+                <span class="path">/services/warehouse-logistics</span>
+              </a>
+              <p class="desc">以台中港倉庫為核心的倉儲與加值服務。</p>
+              <p class="label">頁內區塊</p>
+              <ul class="tree">
+                <li class="plain">台中港據點與彈性倉儲</li>
+                <li class="plain">WMS 庫存管理</li>
+                <li class="plain">Pick and Pack、檢驗重新包裝、貨櫃租售</li>
+                <li class="plain">離岸設備倉儲</li>
+              </ul>
+            </article>
+
+            <article class="svc node" data-node data-search="shipping agency 船務代理 port marine dry bulk tanker container">
+              <a class="row" data-path="/services/shipping-agency" href="https://www.northgo.com/services/shipping-agency">
+                <span class="name">Shipping Agency <small>船務代理</small></span>
+                <span class="path">/services/shipping-agency</span>
+              </a>
+              <p class="desc">港口代理與船舶相關服務。</p>
+              <p class="label">頁內區塊</p>
+              <ul class="tree">
+                <li class="plain">船型：乾散貨、油輪、雜貨、郵輪、離岸、貨櫃、汽車船</li>
+                <li class="plain">Port Agency：全權代理、保護代理、加油、塢修、新船交付</li>
+                <li class="plain">Marine：備件、船員、檢驗、水下清洗、海難救助</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="card span-2" id="contact" data-node data-search="contact 聯絡 enquiry locations taipei taichung kaohsiung los angeles ho chi minh tokyo osaka">
+          <h2>聯絡與據點</h2>
+          <p>詢價表單與七個辦公室都在同一個聯絡頁。Locations 頁尾連結也指向這頁，沒有獨立的據點網址。</p>
+          <ul class="tree">
+            <li class="node" data-node data-search="contact 聯絡我們">
+              <a class="row" data-path="/contact" href="https://www.northgo.com/contact">
+                <span class="name">Contact <small>聯絡我們</small></span>
+                <span class="path">/contact</span>
+              </a>
+            </li>
+            <li class="node" data-node data-search="enquiry form 詢價表單 enquire">
+              <a class="row" data-path="/contact#enquiry-form" href="https://www.northgo.com/contact#enquiry-form">
+                <span class="name">Enquiry form <small>詢價表單</small></span>
+                <span class="path">/contact#enquiry-form</span>
+              </a>
+            </li>
+          </ul>
+          <div class="offices">
+            <article class="office node" data-node data-search="taipei 台北 head office 總部 info.tpe@northgo.com">
+              <h3>Taipei 台北總部</h3>
+              <p>7F., No. 10, Sec. 3, Minsheng E. Rd.<br>Tel +886-2-2531-8677<br>info.tpe@northgo.com</p>
+            </article>
+            <article class="office node" data-node data-search="taichung 台中 info.txg@northgo.com">
+              <h3>Taichung 台中</h3>
+              <p>No. 4, Zhongheng 11th Rd.<br>Tel +886-4-2326-2580<br>info.txg@northgo.com</p>
+            </article>
+            <article class="office node" data-node data-search="kaohsiung 高雄 info.khh@northgo.com">
+              <h3>Kaohsiung 高雄</h3>
+              <p>19F-2, No. 31 Hai-Pien Rd.<br>Tel +886-7-335-0730<br>info.khh@northgo.com</p>
+            </article>
+            <article class="office node" data-node data-search="los angeles 洛杉磯 info.lax@northgo.com">
+              <h3>Los Angeles</h3>
+              <p>119 S. Atlantic Blvd, Ste 301, Monterey Park, CA<br>Tel +1-714-853-1088<br>info.lax@northgo.com</p>
+            </article>
+            <article class="office node" data-node data-search="ho chi minh 胡志明 info.hcmc@northgo.com">
+              <h3>Ho Chi Minh</h3>
+              <p>5F, 92D Nguyen Huu Canh, Binh Thanh<br>Tel +84-28-9995-7368<br>info.hcmc@northgo.com</p>
+            </article>
+            <article class="office node" data-node data-search="tokyo 東京 info.tyo@northgo.com">
+              <h3>Tokyo 東京</h3>
+              <p>6F Gran+Ginza-East, 1-5-1 Shintomi, Chuo-ku<br>Tel +81-3-6260-3944<br>info.tyo@northgo.com</p>
+            </article>
+            <article class="office node" data-node data-search="osaka 大阪 info.osa@northgo.com">
+              <h3>Osaka 大阪</h3>
+              <p>3F MF Sakura-Bashi, 2-6-23 Sonezaki Shinchi, Kita-ku<br>Tel +81-6-6676-8395<br>info.osa@northgo.com</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="card" id="legal" data-node data-search="legal privacy terms cookie disclaimer 隱私 條款">
+          <h2>法律文件</h2>
+          <p>頁尾四份文件，最後更新日期皆為 2024 年 11 月 11 日。</p>
+          <ul class="tree">
+            <li class="node" data-node data-search="privacy policy 隱私權政策">
+              <a class="row" data-path="/legal/privacy-policy" href="https://www.northgo.com/legal/privacy-policy">
+                <span class="name">Privacy Policy <small>隱私權政策</small></span>
+                <span class="path">/legal/privacy-policy</span>
+              </a>
+            </li>
+            <li class="node" data-node data-search="terms of service 服務條款">
+              <a class="row" data-path="/legal/terms" href="https://www.northgo.com/legal/terms">
+                <span class="name">Terms of Service <small>服務條款</small></span>
+                <span class="path">/legal/terms</span>
+              </a>
+            </li>
+            <li class="node" data-node data-search="cookie policy cookie 政策">
+              <a class="row" data-path="/legal/cookie-policy" href="https://www.northgo.com/legal/cookie-policy">
+                <span class="name">Cookie Policy <small>Cookie 政策</small></span>
+                <span class="path">/legal/cookie-policy</span>
+              </a>
+            </li>
+            <li class="node" data-node data-search="legal disclaimer 法律聲明">
+              <a class="row" data-path="/legal/disclaimer" href="https://www.northgo.com/legal/disclaimer">
+                <span class="name">Legal Disclaimer <small>法律聲明</small></span>
+                <span class="path">/legal/disclaimer</span>
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section class="card" id="notes" data-node data-search="news robots sitemap social facebook instagram strategy creative 404">
+          <h2>站點觀察</h2>
+          <div class="note">
+            <strong>頁尾 News 目前是 404</strong>
+            <span class="node" data-node data-search="news 新聞 404">/news 有放在頁尾，開啟後是 Page Not Found。這份地圖不把它當成可前往的頁面。</span>
+          </div>
+          <ul class="tree">
+            <li class="plain">/robots.txt 回傳 200，檔案是空的，沒有 Sitemap 宣告。</li>
+            <li class="plain">/sitemap.xml 回傳 404。</li>
+            <li class="plain">Facebook、Instagram、Twitter 圖示的連結是 #，尚未指向外部帳號。</li>
+            <li class="plain">頁尾製作署名連到 <a href="https://www.strategy.co.nz/">Strategy Creative</a>。</li>
+            <li class="plain">日本語與 Tiếng Việt 路由可開啟，首頁主標仍是英文。繁中首頁主標已翻譯。</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer>
+    <div class="wrap">整理日期 2026-11-11。網址會跟著上方語系切換，頁內區塊維持說明、不另開網址。</div>
+  </footer>
+  <script>
+    const base = "https://www.northgo.com";
+    const buttons = document.querySelectorAll(".langs button");
+    const input = document.getElementById("q");
+    const empty = document.getElementById("empty");
+    const nodes = () => document.querySelectorAll("[data-node]");
+
+    function applyPrefix(prefix) {
+      document.querySelectorAll("[data-path]").forEach((link) => {
+        const path = link.dataset.path;
+        const next = prefix + path;
+        link.href = base + next;
+        const shown = link.querySelector(".path");
+        if (shown) shown.textContent = next;
+      });
+      buttons.forEach((button) => {
+        button.setAttribute("aria-pressed", button.dataset.prefix === prefix ? "true" : "false");
+      });
+    }
+
+    function applyFilter() {
+      const query = input.value.trim().toLowerCase();
+      const list = [...nodes()];
+      list.forEach((node) => node.classList.remove("is-hit"));
+      if (!query) {
+        list.forEach((node) => { node.hidden = false; });
+        empty.classList.remove("show");
+        return;
+      }
+      list.forEach((node) => {
+        if ((node.dataset.search || "").toLowerCase().includes(query)) node.classList.add("is-hit");
+      });
+      list.forEach((node) => {
+        let visible = node.classList.contains("is-hit") || !!node.querySelector(".is-hit");
+        let parent = node.parentElement && node.parentElement.closest("[data-node]");
+        while (!visible && parent) {
+          if (parent.classList.contains("is-hit")) visible = true;
+          parent = parent.parentElement && parent.parentElement.closest("[data-node]");
+        }
+        node.hidden = !visible;
+      });
+      const any = [...document.querySelectorAll("#map > [data-node]")].some((node) => !node.hidden);
+      empty.classList.toggle("show", !any);
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => applyPrefix(button.dataset.prefix));
+    });
+    input.addEventListener("input", applyFilter);
+  </script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  <title>Northgo 詢價｜起運地、目的地與貨況</title>
+  <meta name="description" content="向 Northgo 提出貨運、專案、倉儲或船務代理詢價。請填運輸方式、起運地、目的地、貨物與希望時程。">
+  <style>
+    :root {
+      --navy: #04221f;
+      --cyan: #81d8d0;
+      --ink: #e7f6f4;
+      --muted: #8fb0ab;
+      --line: #1c4742;
+      --paper: #031614;
+      --card: #0a2421;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Segoe UI", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      line-height: 1.55;
+    }
+    a { color: inherit; }
+    .skip { position: absolute; left: 12px; top: -40px; background: var(--cyan); color: var(--navy); padding: 8px 12px; }
+    .skip:focus { top: 12px; }
+    .topbar {
+      position: sticky; top: 0; z-index: 10;
+      min-height: 64px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      padding: 8px 20px;
+      background: rgba(3, 22, 20, 0.94);
+      border-bottom: 1px solid var(--line);
+    }
+    .brand { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
+    .brand img { height: 36px; width: auto; display: block; }
+    .site-nav { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .site-nav a { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: 999px; }
+    .site-nav a[aria-current="page"] { color: var(--cyan); }
+    .wrap { width: min(880px, 100%); margin: 0 auto; }
+    main { padding: 36px 20px 56px; }
+    h1 { margin: 0 0 8px; font-size: clamp(1.8rem, 4vw, 2.6rem); letter-spacing: -0.04em; }
+    .lede { color: var(--muted); max-width: 62ch; }
+    form, .done {
+      margin-top: 22px;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 18px;
+    }
+    .grid { display: grid; gap: 14px; }
+    label { display: grid; gap: 6px; font-weight: 650; }
+    label span { font-weight: 500; color: var(--muted); font-size: 0.85rem; }
+    input, select, textarea {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #071f1c;
+      color: var(--ink);
+      font: inherit;
+      padding: 10px 12px;
+    }
+    textarea { min-height: 120px; resize: vertical; }
+    input:focus, select:focus, textarea:focus { outline: 3px solid rgba(129, 216, 208, 0.7); border-color: var(--cyan); }
+    button {
+      margin-top: 8px;
+      min-height: 48px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--cyan);
+      color: var(--navy);
+      font: inherit;
+      font-weight: 750;
+      padding: 0 18px;
+      cursor: pointer;
+    }
+    .done { display: none; }
+    .done.show { display: block; }
+    .offices { margin-top: 22px; color: var(--muted); }
+    .offices a { color: var(--cyan); }
+    @media (min-width: 720px) {
+      .pair { grid-template-columns: 1fr 1fr; }
+      main, .topbar { padding-left: 32px; padding-right: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#enquiry">跳至詢價表</a>
+  <header class="topbar">
+    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="Northgo" width="156" height="36"></a>
+    <nav class="site-nav" aria-label="主要">
+      <a href="index.html#services">服務</a>
+      <a href="locations.html">據點</a>
+      <a href="contact.html" aria-current="page">詢價</a>
+    </nav>
+  </header>
+  <main>
+    <div class="wrap">
+      <h1 id="enquiry">提出詢價</h1>
+      <p class="lede">先告訴我們要走哪一種服務、從哪裡到哪裡、貨物是什麼。這份表單是重建示範，送出後不會寄到 Northgo 信箱。</p>
+      <form id="form" novalidate>
+        <div class="grid">
+          <label>姓名<input name="name" required autocomplete="name"></label>
+          <div class="grid pair">
+            <label>公司<input name="company" autocomplete="organization"></label>
+            <label>Email<input name="email" type="email" required autocomplete="email"></label>
+          </div>
+          <label>服務
+            <select name="mode" required>
+              <option value="">請選擇</option>
+              <option>貨運物流</option>
+              <option>專案物流</option>
+              <option>倉儲物流</option>
+              <option>船務代理</option>
+            </select>
+          </label>
+          <div class="grid pair">
+            <label>起運地<input name="origin" required placeholder="城市或港口"></label>
+            <label>目的地<input name="destination" required placeholder="城市或港口"></label>
+          </div>
+          <label>貨物<span>貨種、件數、重量或櫃型</span><input name="cargo" required></label>
+          <label>希望時程<input name="timing" required placeholder="例如 12 月出貨"></label>
+          <label>補充<textarea name="note"></textarea></label>
+          <button type="submit">送出詢價</button>
+        </div>
+      </form>
+      <div class="done" id="done" role="status" tabindex="-1">
+        <h2>已收到這份示範詢價</h2>
+        <p>正式委託請改寄 <a href="mailto:info@northgo.com">info@northgo.com</a>，或撥台北總部 +886-2-2531-8677。各地信箱可在 <a href="locations.html">據點地圖</a> 查看。</p>
+      </div>
+      <p class="offices">現有官網的詢價頁：<a href="https://www.northgo.com/zh-tw/contact#enquiry-form">northgo.com/zh-tw/contact</a></p>
+    </div>
+  </main>
+  <script>
+    const form = document.getElementById("form");
+    const done = document.getElementById("done");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+      form.hidden = true;
+      done.classList.add("show");
+      done.focus();
+    });
+  </script>
+</body>
+</html>
