@@ -1,0 +1,10 @@
+{
+  "name": "northgo-site",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "deploy": "wrangler deploy",
+    "db:apply": "wrangler d1 migrations apply northgo --remote",
+    "db:seed": "node scripts/seed-d1.js"
+  }
+}

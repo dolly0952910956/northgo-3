@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>客戶詢問｜Northgo 後台</title>
+  <style>
+    :root { --ink: #1c2433; --muted: #8b93a3; --line: #e7ebf2; --bg: #f3f5f8; --card: #fff; --navy: #1c2433; --teal: #3ec6b4; --teal-deep: #2eae9d; }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; line-height: 1.45; }
+    button, input, select, textarea { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    .shell { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; padding: 1.35rem 0 2.5rem; }
+    .top { display: flex; justify-content: space-between; gap: 1rem; align-items: center; flex-wrap: wrap; margin-bottom: 1.35rem; }
+    .tabs { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+    .tab, .ghost, .solid, .pager button, .ops button { border: 0; border-radius: 999px; background: #fff; box-shadow: 0 1px 2px rgba(28, 36, 51, 0.06), 0 0 0 1px rgba(28, 36, 51, 0.04); }
+    .tab { min-height: 38px; padding: 0 1rem; color: var(--ink); }
+    .tab[aria-pressed="true"] { background: var(--navy); color: #fff; box-shadow: none; }
+    .quiet { min-height: 38px; padding: 0 0.2rem; border: 0; background: transparent; color: var(--muted); }
+    .filters { display: flex; flex-wrap: wrap; gap: 0.85rem 1.1rem; align-items: flex-end; margin-bottom: 0.85rem; }
+    .field { display: flex; flex-direction: column; gap: 0.35rem; color: var(--muted); font-size: 0.86rem; }
+    .field input, .field select, .grid input, .grid select, .grid textarea { min-height: 42px; border: 1px solid #e6ebf2; border-radius: 12px; background: #fff; padding: 0.45rem 0.8rem; box-shadow: 0 1px 2px rgba(28, 36, 51, 0.03); }
+    .field input { width: min(280px, 100%); }
+    .field select { min-width: 7.5rem; }
+    .spacer { flex: 1; }
+    .actions { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; position: relative; }
+    .ghost, .solid, .ops button, .pager button { min-height: 38px; padding: 0 0.95rem; }
+    .solid { background: var(--teal); color: #fff; font-weight: 700; box-shadow: none; }
+    .solid:hover { background: var(--teal-deep); }
+    .popover { position: absolute; right: 0; top: calc(100% + 0.4rem); z-index: 3; width: 200px; padding: 0.75rem 0.85rem; background: #fff; border-radius: 14px; box-shadow: 0 12px 32px rgba(28, 36, 51, 0.12); }
+    .popover label { display: flex; gap: 0.45rem; align-items: center; margin: 0.35rem 0; color: var(--ink); }
+    .card { background: var(--card); border-radius: 18px; box-shadow: 0 10px 30px rgba(28, 36, 51, 0.04); overflow: auto; }
+    table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    th, td { text-align: left; padding: 0.9rem 0.7rem; border-bottom: 1px solid #f0f3f7; vertical-align: middle; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .col-time { width: 10rem; }
+    .col-status { width: 4.4rem; }
+    .col-ops { width: 9rem; }
+    .ops button { padding: 0 0.7rem; }
+    .col-phone, .col-message { width: 8rem; }
+    th { color: #9aa3b2; font-size: 0.84rem; font-weight: 600; }
+    .sort { display: inline-flex; align-items: center; gap: 0.25rem; padding: 0; border: 0; background: transparent; color: inherit; font-weight: 600; }
+    .caret { width: 0; height: 0; border-left: 3.5px solid transparent; border-right: 3.5px solid transparent; border-top: 5px solid #c5ccd6; }
+    .sort.asc .caret { border-top: 0; border-bottom: 5px solid var(--ink); }
+    .sort.desc .caret { border-top-color: var(--ink); }
+    .name { font-weight: 700; }
+    .badge { display: inline-flex; align-items: center; min-height: 26px; padding: 0 0.55rem; border-radius: 8px; background: #f1f3f6; color: #4b5568; font-size: 0.84rem; white-space: nowrap; }
+    .ops { display: flex; gap: 0.4rem; }
+    .ops button { background: #fff; }
+    .excerpt { display: block; max-width: 280px; color: var(--muted); font-size: 0.84rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .empty { margin: 0; padding: 1.4rem 1rem; color: var(--muted); }
+    .pager { display: flex; flex-wrap: wrap; gap: 0.55rem; align-items: center; margin-top: 0.85rem; color: var(--muted); font-size: 0.92rem; }
+    .pager button:disabled { opacity: 0.45; cursor: default; }
+    dialog { width: min(640px, calc(100% - 1.5rem)); border: 0; border-radius: 18px; padding: 1.15rem 1.2rem 1.1rem; box-shadow: 0 24px 60px rgba(28, 36, 51, 0.2); }
+    dialog::backdrop { background: rgba(22, 28, 40, 0.28); }
+    dialog h2 { margin: 0 0 0.8rem; font-size: 1.15rem; }
+    .grid { display: grid; gap: 0.7rem; }
+    .grid label, .stack label { display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.86rem; color: var(--muted); }
+    .grid textarea, .stack textarea { min-height: 7rem; padding: 0.65rem 0.8rem; resize: vertical; }
+    .checks { display: flex; flex-wrap: wrap; gap: 0.45rem 0.9rem; }
+    .checks label { flex-direction: row; align-items: center; gap: 0.35rem; color: var(--ink); }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.9rem; }
+    .danger { background: #fff; color: #b42318; box-shadow: 0 0 0 1px #f0d5d2; }
+    .form-status { min-height: 1.2rem; margin: 0.55rem 0 0; color: #b42318; }
+    .form-status.ok { color: #0f7a45; }
+    .module { padding: 1.5rem 1.2rem; color: var(--muted); }
+    @media (min-width: 760px) { .grid { grid-template-columns: 1fr 1fr; } .span { grid-column: 1 / -1; } }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="top">
+      <nav class="tabs" aria-label="後台">
+        <button class="tab" type="button" data-tab="enquiries" aria-pressed="true">客戶詢問</button>
+        <button class="tab" type="button" data-tab="content">網站內容</button>
+        <button class="tab" type="button" data-tab="media">媒體</button>
+        <button class="tab" type="button" data-tab="pages">動態頁面</button>
+        <button class="tab" type="button" data-tab="users">使用者</button>
+      </nav>
+      <button id="logout" class="quiet" type="button">登出</button>
+    </div>
+
+    <section id="enquiries">
+      <div class="filters">
+        <label class="field">搜尋<input id="search" type="search" placeholder="姓名、公司、Email"></label>
+        <label class="field">狀態
+          <select id="status-filter">
+            <option value="">全部</option>
+            <option value="new">新進</option>
+            <option value="handling">處理中</option>
+            <option value="done">已完成</option>
+          </select>
+        </label>
+        <label class="field">每頁
+          <select id="page-size">
+            <option>10</option>
+            <option selected>20</option>
+            <option>50</option>
+          </select>
+        </label>
+        <div class="spacer"></div>
+        <div class="actions">
+          <button id="settings-btn" class="ghost" type="button" aria-expanded="false">設定</button>
+          <div id="settings" class="popover" hidden>
+            <label><input id="show-phone" type="checkbox"> 顯示電話</label>
+            <label><input id="show-message" type="checkbox"> 顯示詢問內容</label>
+          </div>
+          <button id="reload" class="ghost" type="button">重新載入</button>
+          <button id="create" class="solid" type="button">新增詢問</button>
+        </div>
+      </div>
+      <div class="card">
+        <p class="empty" id="empty" hidden>尚無詢問。</p>
+        <table id="table">
+          <thead>
+            <tr>
+              <th class="col-time"><button class="sort desc" type="button" data-sort="createdAt">時間 <i class="caret"></i></button></th>
+              <th class="col-name"><button class="sort" type="button" data-sort="name">姓名 <i class="caret"></i></button></th>
+              <th class="col-company"><button class="sort" type="button" data-sort="company">公司 <i class="caret"></i></button></th>
+              <th class="col-email"><button class="sort" type="button" data-sort="email">電子郵件 <i class="caret"></i></button></th>
+              <th class="col-phone" id="phone-head" hidden>電話</th>
+              <th class="col-message" id="message-head" hidden>詢問內容</th>
+              <th class="col-status"><button class="sort" type="button" data-sort="status">狀態 <i class="caret"></i></button></th>
+              <th class="col-ops">操作</th>
+            </tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+      <div class="pager">
+        <span id="summary">共 0 筆 · 第 1 / 1 頁</span>
+        <button id="prev" type="button">上一頁</button>
+        <button id="next" type="button">下一頁</button>
+      </div>
+    </section>
+
+    <section id="module" class="card module" hidden>
+      <h2 id="module-title"></h2>
+      <p id="module-copy"></p>
+    </section>
+  </div>
+
+  <dialog id="editor">
+    <form method="dialog" id="editor-form">
+      <h2 id="editor-title">新增詢問</h2>
+      <div class="grid">
+        <label>名<input id="firstName" maxlength="80" required></label>
+        <label>姓<input id="lastName" maxlength="80" required></label>
+        <label class="span">公司<input id="company" maxlength="160" required></label>
+        <label>電子郵件<input id="email" type="email" maxlength="160" required></label>
+        <label>電話<input id="phone" maxlength="40" required></label>
+        <label class="span">國家<input id="country" maxlength="80"></label>
+      </div>
+      <div class="checks" id="services">
+        <label><input type="checkbox" value="freight">貨運物流</label>
+        <label><input type="checkbox" value="project">專案物流</label>
+        <label><input type="checkbox" value="warehouse">倉儲物流</label>
+        <label><input type="checkbox" value="agency">船務代理</label>
+        <label><input type="checkbox" value="other">其他</label>
+      </div>
+      <div class="stack">
+        <label>詢問內容<textarea id="message" maxlength="4000"></textarea></label>
+        <label>狀態
+          <select id="status">
+            <option value="new">新進</option>
+            <option value="handling">處理中</option>
+            <option value="done">已完成</option>
+          </select>
+        </label>
+        <label>內部備註<textarea id="note" maxlength="2000"></textarea></label>
+      </div>
+      <p class="form-status" id="form-status" role="status"></p>
+      <div class="dialog-actions">
+        <button class="ghost" type="button" id="editor-cancel">取消</button>
+        <button class="solid" type="submit" id="editor-save">儲存</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="confirm">
+    <form method="dialog">
+      <h2>刪除這筆詢問？</h2>
+      <p id="confirm-copy"></p>
+      <div class="dialog-actions">
+        <button class="ghost" value="cancel">取消</button>
+        <button class="danger" id="confirm-delete" value="ok">刪除</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script>
+    var labels = { new: "新進", handling: "處理中", done: "已完成" };
+    var modules = { content: ["網站內容", "此區還沒有可維護的內容。"], media: ["媒體", "此區還沒有媒體。"], pages: ["動態頁面", "此區還沒有頁面。"], users: ["使用者", "此區還沒有使用者。"] };
+    var items = [];
+    var query = "";
+    var filter = "";
+    var page = 1;
+    var pageSize = 20;
+    var sortKey = "createdAt";
+    var sortDir = "desc";
+    var editing = "";
+    var pendingDelete = "";
+
+    function esc(value) {
+      return String(value == null ? "" : value).replace(/[&<>"]/g, function (char) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[char];
+      });
+    }
+    function nameOf(item) { return (item.firstName + " " + item.lastName).trim(); }
+    function when(value) {
+      var date = new Date(value);
+      if (isNaN(date.getTime())) return "";
+      function pad(number) { return String(number).padStart(2, "0"); }
+      return date.getFullYear() + "/" + pad(date.getMonth() + 1) + "/" + pad(date.getDate()) + " " + pad(date.getHours()) + ":" + pad(date.getMinutes()) + ":" + pad(date.getSeconds());
+    }
+    function payload() {
+      var services = [];
+      document.querySelectorAll("#services input:checked").forEach(function (input) { services.push(input.value); });
+      return {
+        first_name: document.getElementById("firstName").value,
+        last_name: document.getElementById("lastName").value,
+        company: document.getElementById("company").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        country: document.getElementById("country").value,
+        services: services,
+        message: document.getElementById("message").value,
+        status: document.getElementById("status").value,
+        note: document.getElementById("note").value
+      };
+    }
+    function fill(item) {
+      document.getElementById("firstName").value = item ? item.firstName : "";
+      document.getElementById("lastName").value = item ? item.lastName : "";
+      document.getElementById("company").value = item ? item.company : "";
+      document.getElementById("email").value = item ? item.email : "";
+      document.getElementById("phone").value = item ? item.phone : "";
+      document.getElementById("country").value = item ? (item.country || "") : "";
+      document.getElementById("message").value = item ? (item.message || "") : "";
+      document.getElementById("status").value = item && labels[item.status] ? item.status : "new";
+      document.getElementById("note").value = item ? (item.note || "") : "";
+      document.querySelectorAll("#services input").forEach(function (input) {
+        input.checked = !!(item && item.services && item.services.indexOf(input.value) !== -1);
+      });
+    }
+    function filtered() {
+      return items.filter(function (item) {
+        if (filter && item.status !== filter) return false;
+        var hay = [nameOf(item), item.company, item.email, item.phone, item.message].join(" ").toLowerCase();
+        return hay.indexOf(query) !== -1;
+      }).sort(function (a, b) {
+        var left = sortKey === "name" ? nameOf(a) : sortKey === "status" ? (labels[a.status] || a.status) : (a[sortKey] || "");
+        var right = sortKey === "name" ? nameOf(b) : sortKey === "status" ? (labels[b.status] || b.status) : (b[sortKey] || "");
+        var order = String(left).localeCompare(String(right), "zh-Hant", { numeric: true });
+        return sortDir === "asc" ? order : -order;
+      });
+    }
+    function render() {
+      var showPhone = document.getElementById("show-phone").checked;
+      var showMessage = document.getElementById("show-message").checked;
+      document.getElementById("phone-head").hidden = !showPhone;
+      document.getElementById("message-head").hidden = !showMessage;
+      var rows = filtered();
+      var pages = Math.max(1, Math.ceil(rows.length / pageSize));
+      if (page > pages) page = pages;
+      var start = (page - 1) * pageSize;
+      var slice = rows.slice(start, start + pageSize);
+      document.getElementById("empty").hidden = rows.length > 0;
+      document.getElementById("table").hidden = rows.length === 0;
+      document.getElementById("rows").innerHTML = slice.map(function (item) {
+        return "<tr><td class=\"col-time\" title=\"" + esc(when(item.createdAt)) + "\">" + esc(when(item.createdAt)) + "</td><td class=\"col-name name\" title=\"" + esc(nameOf(item)) + "\">" + esc(nameOf(item)) + "</td><td class=\"col-company\">" + esc(item.company) + "</td><td class=\"col-email\" title=\"" + esc(item.email) + "\">" + esc(item.email) + "</td>" +
+          (showPhone ? "<td class=\"col-phone\">" + esc(item.phone || "") + "</td>" : "") +
+          (showMessage ? "<td class=\"col-message\"><span class=\"excerpt\">" + esc(item.message || "沒有留下內容") + "</span></td>" : "") +
+          "<td class=\"col-status\"><span class=\"badge\">" + esc(labels[item.status] || item.status) + "</span></td><td class=\"col-ops ops\"><button type=\"button\" data-edit=\"" + item.id + "\">編輯</button><button type=\"button\" data-delete=\"" + item.id + "\">刪除</button></td></tr>";
+      }).join("");
+      document.getElementById("summary").textContent = "共 " + rows.length + " 筆 · 第 " + page + " / " + pages + " 頁";
+      document.getElementById("prev").disabled = page <= 1;
+      document.getElementById("next").disabled = page >= pages;
+      document.querySelectorAll(".sort").forEach(function (button) {
+        button.classList.toggle("asc", button.getAttribute("data-sort") === sortKey && sortDir === "asc");
+        button.classList.toggle("desc", button.getAttribute("data-sort") === sortKey && sortDir === "desc");
+      });
+    }
+    function load() {
+      return fetch("/api/admin/enquiries").then(function (response) {
+        if (response.status === 401) { location.href = "/admin/login"; return null; }
+        return response.json();
+      }).then(function (body) {
+        if (!body) return;
+        items = body.items || [];
+        render();
+      });
+    }
+    function openEditor(item) {
+      editing = item ? item.id : "";
+      fill(item);
+      document.getElementById("editor-title").textContent = item ? "編輯詢問" : "新增詢問";
+      document.getElementById("editor-save").textContent = item ? "儲存" : "建立";
+      document.getElementById("form-status").textContent = "";
+      document.getElementById("editor").showModal();
+    }
+
+    document.querySelector(".tabs").addEventListener("click", function (event) {
+      var tab = event.target.closest(".tab");
+      if (!tab) return;
+      document.querySelectorAll(".tab").forEach(function (button) { button.setAttribute("aria-pressed", String(button === tab)); });
+      var key = tab.getAttribute("data-tab");
+      var enquiry = key === "enquiries";
+      document.getElementById("enquiries").hidden = !enquiry;
+      document.getElementById("module").hidden = enquiry;
+      if (!enquiry) {
+        document.getElementById("module-title").textContent = modules[key][0];
+        document.getElementById("module-copy").textContent = modules[key][1];
+      }
+    });
+    document.getElementById("search").addEventListener("input", function (event) { query = event.target.value.trim().toLowerCase(); page = 1; render(); });
+    document.getElementById("status-filter").addEventListener("change", function (event) { filter = event.target.value; page = 1; render(); });
+    document.getElementById("page-size").addEventListener("change", function (event) { pageSize = Number(event.target.value) || 20; page = 1; render(); });
+    document.getElementById("settings-btn").addEventListener("click", function () {
+      var panel = document.getElementById("settings");
+      panel.hidden = !panel.hidden;
+      this.setAttribute("aria-expanded", String(!panel.hidden));
+    });
+    document.getElementById("show-phone").addEventListener("change", render);
+    document.getElementById("show-message").addEventListener("change", render);
+    document.getElementById("reload").addEventListener("click", function () { load(); });
+    document.getElementById("create").addEventListener("click", function () { openEditor(null); });
+    document.querySelector("thead").addEventListener("click", function (event) {
+      var button = event.target.closest(".sort");
+      if (!button) return;
+      var key = button.getAttribute("data-sort");
+      sortDir = sortKey === key && sortDir === "desc" ? "asc" : "desc";
+      sortKey = key;
+      render();
+    });
+    document.getElementById("rows").addEventListener("click", function (event) {
+      var edit = event.target.closest("[data-edit]");
+      if (edit) {
+        openEditor(items.filter(function (item) { return item.id === edit.getAttribute("data-edit"); })[0]);
+        return;
+      }
+      var remove = event.target.closest("[data-delete]");
+      if (!remove) return;
+      pendingDelete = remove.getAttribute("data-delete");
+      var item = items.filter(function (row) { return row.id === pendingDelete; })[0];
+      document.getElementById("confirm-copy").textContent = item ? nameOf(item) + " · " + item.company : "";
+      document.getElementById("confirm").showModal();
+    });
+    document.getElementById("prev").addEventListener("click", function () { if (page > 1) { page -= 1; render(); } });
+    document.getElementById("next").addEventListener("click", function () { page += 1; render(); });
+    document.getElementById("editor-cancel").addEventListener("click", function () { document.getElementById("editor").close(); });
+    document.getElementById("editor-form").addEventListener("submit", function (event) {
+      event.preventDefault();
+      var status = document.getElementById("form-status");
+      var path = editing ? "/api/admin/enquiries/" + editing : "/api/admin/enquiries";
+      fetch(path, { method: editing ? "PATCH" : "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(payload()) })
+        .then(function (response) { return response.json(); })
+        .then(function (body) {
+          if (!body.ok) { status.className = "form-status"; status.textContent = "請補上姓名、公司、電子郵件和電話。"; return; }
+          document.getElementById("editor").close();
+          if (!editing) page = 1;
+          load();
+        });
+    });
+    document.getElementById("confirm-delete").addEventListener("click", function (event) {
+      event.preventDefault();
+      var id = pendingDelete;
+      fetch("/api/admin/enquiries/" + id, { method: "DELETE" }).then(function () {
+        items = items.filter(function (item) { return item.id !== id; });
+        pendingDelete = "";
+        document.getElementById("confirm").close();
+        render();
+      });
+    });
+    document.getElementById("logout").addEventListener("click", function () {
+      fetch("/api/admin/logout", { method: "POST" }).then(function () { location.href = "/admin/login"; });
+    });
+    load();
+  </script>
+</body>
+</html>

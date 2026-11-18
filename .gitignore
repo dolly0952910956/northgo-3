@@ -1,3 +1,7 @@
+data/
+_demo-src/
+.wrangler/
+node_modules/
 headers.txt
 robots-head.txt
 robots-body.txt

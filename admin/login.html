@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>登入｜Northgo 後台</title>
+  <style>
+    :root { --ink: #1c2433; --muted: #8b93a3; --line: #e6ebf2; --bg: #f3f5f8; --teal: #3ec6b4; }
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: var(--bg); color: var(--ink); font-family: "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; }
+    form { width: min(420px, calc(100% - 2rem)); background: #fff; border-radius: 18px; padding: 1.4rem 1.4rem 1.2rem; box-shadow: 0 10px 30px rgba(28, 36, 51, 0.06); }
+    .mark { margin: 0 0 0.7rem; color: var(--muted); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; }
+    h1 { margin: 0 0 0.35rem; font-size: 1.45rem; }
+    p { margin: 0; color: var(--muted); }
+    label { display: flex; flex-direction: column; gap: 0.35rem; margin-top: 0.9rem; font-weight: 700; }
+    input { font: inherit; font-weight: 400; color: var(--ink); background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 0.7rem 0.75rem; }
+    button { margin-top: 1rem; min-height: 46px; width: 100%; border: 0; border-radius: 999px; background: var(--teal); color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+    .bad { margin-top: 0.8rem; color: #b42318; }
+    a { color: #2eae9d; }
+  </style>
+</head>
+<body>
+  <form id="login">
+    <p class="mark">ADMIN</p>
+    <h1>後台登入</h1>
+    <p>登入後可查看並維護前台送來的詢問。</p>
+    <label>帳號<input name="username" autocomplete="username" required></label>
+    <label>密碼<input name="password" type="password" autocomplete="current-password" required></label>
+    <button type="submit">登入</button>
+    <p class="bad" id="error" role="status"></p>
+    <p style="margin-top:1rem"><a href="/">回前台</a></p>
+  </form>
+  <script>
+    document.getElementById("login").addEventListener("submit", function (event) {
+      event.preventDefault();
+      var data = new FormData(event.target);
+      var error = document.getElementById("error");
+      error.textContent = "";
+      fetch("/api/admin/login", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ username: data.get("username"), password: data.get("password") })
+      }).then(function (response) {
+        if (response.ok) { location.href = "/admin/"; return; }
+        error.textContent = "帳號或密碼不正確。";
+      }).catch(function () {
+        error.textContent = "無法連上後台。";
+      });
+    });
+  </script>
+</body>
+</html>
