@@ -1,5 +1,6 @@
 {
   "name": "northgo",
+  "account_id": "d51faed2a0c431766613ef4fc100cf25",
   "main": "worker/index.js",
   "compatibility_date": "2026-11-18",
   "assets": {
@@ -13,7 +14,7 @@
     {
       "binding": "DB",
       "database_name": "northgo",
-      "database_id": "00000000-0000-0000-0000-000000000000",
+      "database_id": "ffd231d8-a7ab-4e3f-b489-8dbbd36ffed9",
       "migrations_dir": "migrations"
     }
   ]
