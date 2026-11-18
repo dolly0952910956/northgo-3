@@ -61,13 +61,17 @@
       border-bottom: 1px solid var(--line);
     }
     .brand { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; }
-    .brand img { height: 36px; width: auto; display: block; }
+    .brand img { height: 44px; width: auto; display: block; }
+    img { max-width: 100%; }
     .site-nav { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
     .site-nav a { text-decoration: none; min-height: 44px; display: inline-flex; align-items: center; padding: 0 10px; border-radius: 999px; }
     .site-nav a.live { border: 1px solid var(--cyan); color: var(--cyan); padding: 0 14px; }
     .site-nav a.live:hover, .site-nav a.live:focus-visible { background: var(--cyan); color: var(--navy); }
     .wrap { width: min(1120px, 100%); margin: 0 auto; }
-    .hero { padding: 56px 20px 36px; }
+    .hero { padding: 40px 20px 28px; }
+    .hero-grid { display: grid; gap: 28px; align-items: center; }
+    .hero-photo { margin: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); }
+    .hero-photo img { width: 100%; height: 320px; object-fit: cover; object-position: 72% center; display: block; }
     .eyebrow { margin: 0 0 8px; color: var(--cyan); letter-spacing: 0.14em; text-transform: uppercase; font-size: 0.82rem; font-weight: 700; }
     h1 { margin: 0; font-size: clamp(2.1rem, 5vw, 3.4rem); line-height: 1.05; letter-spacing: -0.04em; }
     .lede { max-width: 62ch; color: var(--muted); font-size: 1.05rem; }
@@ -87,23 +91,37 @@
     main { padding: 8px 20px 48px; }
     h2 { margin: 28px 0 8px; letter-spacing: -0.03em; }
     .section-note { margin: 0 0 12px; color: var(--muted); max-width: 68ch; }
-    .service h3 { margin: 0; }
+    .service h3 { margin: 0; display: flex; align-items: center; gap: 10px; }
+    .service h3 img { width: 36px; height: 36px; flex: none; }
+    .marks { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; margin: 14px 0 4px; }
+    .marks img { height: 52px; width: auto; }
+    .aeo-frame { width: 64px; height: 64px; overflow: hidden; border-radius: 50%; background: #fff; display: inline-block; flex: none; }
+    .aeo-frame img { width: 250px; max-width: none; height: auto; margin: -8px 0 0 -10px; }
+    .gallery { display: grid; gap: 12px; }
+    .gallery figure { margin: 0; }
+    .gallery img { width: 100%; height: 200px; object-fit: cover; display: block; border-radius: 14px; border: 1px solid var(--line); }
+    .gallery figcaption { margin-top: 6px; color: var(--muted); font-size: 0.88rem; }
     .service ul, .step p { margin: 8px 0 0; }
     .service li + li { margin-top: 4px; }
     footer { padding: 8px 20px 36px; color: var(--muted); font-size: 0.9rem; }
     footer a { color: var(--cyan); }
     @media (min-width: 800px) {
       .hero, main, footer, .topbar { padding-left: 32px; padding-right: 32px; }
+      .hero-grid { grid-template-columns: 1.05fr 0.95fr; }
+      .hero-photo img { height: 420px; }
       .facts { grid-template-columns: repeat(3, 1fr); }
       .services { grid-template-columns: 1fr 1fr; }
       .steps { grid-template-columns: repeat(3, 1fr); }
+      .gallery { grid-template-columns: 1fr 1fr 1fr; }
+      .gallery .wide { grid-column: 1 / -1; }
+      .gallery .wide img { height: 320px; }
     }
   </style>
 </head>
 <body>
   <a class="skip" href="#content">跳至內容</a>
   <header class="topbar">
-    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="Northgo" width="156" height="36"></a>
+    <a class="brand" href="index.html"><img src="assets/logo.svg" alt="Northgo" width="224" height="44"></a>
     <nav class="site-nav" aria-label="主要">
       <a href="#services">服務</a>
       <a href="locations.html">據點</a>
@@ -111,14 +129,19 @@
     </nav>
   </header>
   <section class="hero">
-    <div class="wrap">
-      <p class="eyebrow">Making logistics effortless</p>
-      <h1>讓物流變得輕鬆。</h1>
-      <p class="lede">Northgo 在 1988 年創立於台北，2024 年 11 月 11 日由 Max Seair Logistics 改名。我們做海空陸貨運、重件專案、倉儲，以及船務代理。辦公室在台灣、日本、越南與美國。</p>
-      <div class="actions">
-        <a class="primary" href="contact.html">提出詢價</a>
-        <a class="secondary" href="locations.html">看七個辦公室</a>
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow">Making logistics effortless</p>
+        <h1>讓物流變得輕鬆。</h1>
+        <p class="lede">Northgo 在 1988 年創立於台北，2024 年 11 月 11 日由 Max Seair Logistics 改名。我們做海空陸貨運、重件專案、倉儲，以及船務代理。辦公室在台灣、日本、越南與美國。</p>
+        <div class="actions">
+          <a class="primary" href="contact.html">提出詢價</a>
+          <a class="secondary" href="locations.html">看七個辦公室</a>
+        </div>
       </div>
+      <figure class="hero-photo">
+        <img src="assets/media/hero.webp" alt="滿載貨櫃的貨輪，由上空俯瞰">
+      </figure>
     </div>
   </section>
   <main id="content">
@@ -128,12 +151,17 @@
         <p class="fact"><strong>7 個辦公室</strong><span>台北、台中、高雄、東京、大阪、胡志明市、洛杉磯</span></p>
         <p class="fact"><strong>IATA · ISO 45001 · AEO</strong><span>現有官網頁尾標示的會員與認證標誌</span></p>
       </section>
+      <div class="marks" aria-label="會員與認證標誌">
+        <img src="assets/media/iata.svg" alt="IATA">
+        <img src="assets/media/iso.svg" alt="ISO 45001">
+        <span class="aeo-frame"><img src="assets/media/aeo.webp" alt="AEO"></span>
+      </div>
 
       <h2 id="services">能運什麼</h2>
       <p class="section-note">四條服務線沿用官網公開範圍。這裡寫的是實際作業，不是重複的口號。</p>
       <div class="services">
         <article class="service">
-          <h3>貨運物流</h3>
+          <h3><img src="assets/media/icon-freight.svg" alt="">貨運物流</h3>
           <p class="en">Freight Logistics</p>
           <ul>
             <li>海運整櫃 FCL 與併櫃 LCL</li>
@@ -143,7 +171,7 @@
           </ul>
         </article>
         <article class="service">
-          <h3>專案物流</h3>
+          <h3><img src="assets/media/icon-project.svg" alt="">專案物流</h3>
           <p class="en">Project Logistics</p>
           <ul>
             <li>超大件、重件與高價貨物</li>
@@ -153,7 +181,7 @@
           </ul>
         </article>
         <article class="service">
-          <h3>倉儲物流</h3>
+          <h3><img src="assets/media/icon-warehouse.svg" alt="">倉儲物流</h3>
           <p class="en">Warehouse Logistics</p>
           <ul>
             <li>台中港倉庫</li>
@@ -163,7 +191,7 @@
           </ul>
         </article>
         <article class="service">
-          <h3>船務代理</h3>
+          <h3><img src="assets/media/icon-agency.svg" alt="">船務代理</h3>
           <p class="en">Shipping Agency</p>
           <ul>
             <li>全權、保護、加油、塢修與新船交付代理</li>
@@ -179,11 +207,40 @@
         <article class="step"><strong>2. 留下貨況</strong><p>填起運地、目的地、貨物與希望時程。</p></article>
         <article class="step"><strong>3. 對應辦公室接洽</strong><p>台北總部 +886-2-2531-8677，或寫信到 info@northgo.com。</p></article>
       </div>
+
+      <h2>影像</h2>
+      <p class="section-note">這些照片沿用 northgo.com 公開素材，說明貨運、空運與日常作業的樣子。</p>
+      <div class="gallery">
+        <figure class="wide">
+          <img src="assets/media/planes.webp" alt="停在機場的多架貨機">
+          <figcaption>多架貨機停在機場</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/media/plane.webp" alt="機場上的貨機">
+          <figcaption>貨機</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/media/trusted.jpg" alt="會議中討論物流的團隊">
+          <figcaption>Trusted experts in logistics</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/media/flexible.jpg" alt="彈性物流方案">
+          <figcaption>Flexible logistics solutions</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/media/people.jpg" alt="以人為本的服務">
+          <figcaption>People-oriented service</figcaption>
+        </figure>
+        <figure>
+          <img src="assets/media/committed.jpg" alt="專注把事情做成">
+          <figcaption>Committed to success</figcaption>
+        </figure>
+      </div>
     </div>
   </main>
   <footer>
     <div class="wrap">
-      重建稿 1.0.0。這是依公開官網整理的版本，尚未取代 <a href="https://www.northgo.com/">northgo.com</a>。
+      重建稿 1.1.0。這是依公開官網整理的版本，尚未取代 <a href="https://www.northgo.com/">northgo.com</a>。
       法律文件仍以官網為準：
       <a href="https://www.northgo.com/legal/privacy-policy">隱私權</a>、
       <a href="https://www.northgo.com/legal/terms">條款</a>、
